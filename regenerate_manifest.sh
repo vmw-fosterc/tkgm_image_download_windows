@@ -36,11 +36,15 @@ chmod +x "gen-publish-images-totar_${NOW}.sh"
 chmod +x "gen-publish-images-fromtar_${NOW}.sh"
 
 ## Generating image minipulation scripts
-SCRIPT_TO_TAR="publish-images-totar_${NOW}_TKG-${TKG_BOM_IMAGE_TAG}_TKR-${DOWNLOAD_TKRS}.sh"
-SCRIPT_FROM_TAR="publish-images-fromtar_${NOW}_TKG-${TKG_BOM_IMAGE_TAG}_TKR-${DOWNLOAD_TKRS}.sh"
-"./gen-publish-images-totar_${NOW}.sh" > ${SCRIPT_TO_TAR}
-"./gen-publish-images-fromtar_${NOW}.sh" > ${SCRIPT_FROM_TAR}
-sed -i "s/--to-tar\ /--to-tar\ ${IMAGE_TAR_DIR}/g" ${SCRIPT_TO_TAR}
-sed -i "s/--tar\ /--tar\ ${IMAGE_TAR_DIR}/g" ${SCRIPT_FROM_TAR}
-echo "Execute ${SCRIPT_TO_TAR} to download the images"
-echo "Execute ${SCRIPT_FROM_TAR} to upload the images"
+SCRIPT_TO_TAR_LINUX="publish-images-totar_${NOW}_TKG-${TKG_BOM_IMAGE_TAG}_TKR-${DOWNLOAD_TKRS}.sh"
+SCRIPT_FROM_TAR_LINUX="publish-images-fromtar_${NOW}_TKG-${TKG_BOM_IMAGE_TAG}_TKR-${DOWNLOAD_TKRS}.sh"
+"./gen-publish-images-totar_${NOW}.sh" > ${SCRIPT_TO_TAR_LINUX}
+"./gen-publish-images-fromtar_${NOW}.sh" > ${SCRIPT_FROM_TAR_LINUX}
+sed -i "s/--to-tar\ /--to-tar\ ${IMAGE_TAR_DIR}/g" ${SCRIPT_TO_TAR_LINUX}
+sed -i "s/--tar\ /--tar\ ${IMAGE_TAR_DIR}/g" ${SCRIPT_FROM_TAR_LINUX}
+echo "Execute ${SCRIPT_TO_TAR_LINUX} to download the images on Linux Machine"
+echo "Execute ${SCRIPT_FROM_TAR_LINUX} to upload the images on Linux Machine"
+
+SCRIPT_TO_TAR_WINDOWS="publish-images-totar_${NOW}_TKG-${TKG_BOM_IMAGE_TAG}_TKR-${DOWNLOAD_TKRS}_WINDOQS.ps1"
+sed "s/imgpkg/.\/imgpkg/g" ${SCRIPT_TO_TAR_LINUX} > ${SCRIPT_TO_TAR_WINDOWS}
+sed -i "s/set\ -euo\ pipefail/mkdir ${IMAGE_TAR_DIR}/g" ${SCRIPT_TO_TAR_WINDOWS}
